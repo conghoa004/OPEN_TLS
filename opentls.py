@@ -129,7 +129,7 @@ def create_client_cert(client_name="mqtt-client"):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python cert_tool.py [ca|server|client <name>]")
+        print("Usage: python opentls.py [ca|server|client <name>]")
         sys.exit(1)
 
     cmd = sys.argv[1].lower()
@@ -139,7 +139,7 @@ if __name__ == "__main__":
         create_server_cert()
     elif cmd == "client":
         if len(sys.argv) < 3:
-            print("Usage: python cert_tool.py client <client_name>")
+            print("Usage: python opentls.py client <client_name>")
             sys.exit(1)
         create_client_cert(sys.argv[2])
     else:

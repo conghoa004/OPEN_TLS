@@ -1,6 +1,6 @@
-# 🔐 Cert Tool – Tạo chứng chỉ cho MQTT/EMQX
+# 🔐 OpenTLS – Công cụ tạo chứng chỉ cho MQTT/EMQX
 
-Script này giúp bạn tạo **CA (Certificate Authority)**, **server certificate** và **client certificate** để sử dụng trong môi trường bảo mật TLS/SSL, ví dụ với **EMQX MQTT Broker**.
+`opentls.py` là một script Python giúp bạn tự tạo **CA (Certificate Authority)**, **server certificate** và **client certificate** để sử dụng trong môi trường bảo mật TLS/SSL, ví dụ với **EMQX MQTT Broker**.
 
 ## 📂 Cấu trúc thư mục
 
@@ -21,24 +21,24 @@ certs/
 ### 1. Tạo CA (Root Certificate Authority)
 
 ```bash
-python cert_tool.py ca
+python opentls.py ca
 ```
 
-Kết quả:  
-- `certs/ca.crt`  
+Sinh ra:
+- `certs/ca.crt`
 - `certs/ca.key`
 
 ### 2. Tạo chứng chỉ Server
 
 ```bash
-python cert_tool.py server
+python opentls.py server
 ```
 
-Kết quả:  
-- `certs/server.crt`  
+Sinh ra:
+- `certs/server.crt`
 - `certs/server.key`
 
-📌 SAN (Subject Alternative Name) đã được cấu hình gồm:
+📌 SAN (Subject Alternative Name) đã được cấu hình sẵn:
 - `localhost`
 - `emqx.local`
 - `127.0.0.1`
@@ -46,22 +46,22 @@ Kết quả:
 ### 3. Tạo chứng chỉ Client
 
 ```bash
-python cert_tool.py client <client_name>
+python opentls.py client <client_name>
 ```
 
 Ví dụ:
 
 ```bash
-python cert_tool.py client mqtt-client1
+python opentls.py client mqtt-client1
 ```
 
-Kết quả:  
-- `certs/mqtt-client1.crt`  
+Sinh ra:
+- `certs/mqtt-client1.crt`
 - `certs/mqtt-client1.key`
 
 ### 4. Sử dụng với EMQX / MQTT Broker
 
-Trong file cấu hình **EMQX** (hoặc broker MQTT khác), bạn chỉ định:
+Trong file cấu hình EMQX (hoặc broker MQTT khác), chỉ định:
 
 ```ini
 listener.ssl.external.keyfile = /path/to/certs/server.key
@@ -69,7 +69,7 @@ listener.ssl.external.certfile = /path/to/certs/server.crt
 listener.ssl.external.cacertfile = /path/to/certs/ca.crt
 ```
 
-Ở client (ví dụ `paho-mqtt` Python):
+Ở client (ví dụ Python `paho-mqtt`):
 
 ```python
 import paho.mqtt.client as mqtt
@@ -87,20 +87,22 @@ client.loop_start()
 ## 📌 Yêu cầu
 
 - Python 3.8+
-- Thư viện [cryptography](https://cryptography.io/):
+- Thư viện [cryptography](https://cryptography.io/)
+
+Cài đặt bằng:
 
 ```bash
 pip install cryptography
 ```
 
-## 📖 Lệnh hỗ trợ
+## 📖 Các lệnh hỗ trợ
 
 ```bash
-python cert_tool.py ca              # Tạo Root CA
-python cert_tool.py server          # Tạo server cert
-python cert_tool.py client <name>   # Tạo client cert với tên tùy chọn
+python opentls.py ca              # Tạo Root CA
+python opentls.py server          # Tạo server cert
+python opentls.py client <name>   # Tạo client cert với tên tùy chọn
 ```
 
 ---
 
-✅ Bây giờ bạn có thể tự tạo hệ thống chứng chỉ cho MQTT broker & client để bật kết nối bảo mật TLS/SSL.  
+✅ Với OpenTLS, bạn có thể nhanh chóng tạo hệ thống chứng chỉ bảo mật TLS/SSL cho MQTT broker & client.
